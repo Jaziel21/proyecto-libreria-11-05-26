@@ -83,3 +83,154 @@ EMPLEADO ──< VENTA
 
 PROMT: de acuerdo a tu respuesta anterior puedes generar un script en sql para descargar con el nombre de dblibreria.sql para las entidades con sus relaciones
 
+
+### 📝 Archivo: `dblibreria.sql`
+
+```sql
+-- Creación de la Base de Datos
+CREATE DATABASE IF NOT EXISTS dblibreria;
+USE dblibreria;
+
+-- 1. Entidad EDITORIAL
+CREATE TABLE EDITORIAL (
+    id_editorial INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    pais VARCHAR(50),
+    sitio_web VARCHAR(100),
+    contacto VARCHAR(100)
+);
+
+-- 2. Entidad CATEGORIA
+CREATE TABLE CATEGORIA (
+    id_categoria INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(50) NOT NULL,
+    descripcion TEXT
+);
+
+-- 3. Entidad AUTOR
+CREATE TABLE AUTOR (
+    id_autor INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    nacionalidad VARCHAR(50),
+    biografia TEXT
+);
+
+-- 4. Entidad LIBRO
+CREATE TABLE LIBRO (
+    isbn VARCHAR(20) PRIMARY KEY,
+    titulo VARCHAR(150) NOT NULL,
+    anio_publicacion INT,
+    precio DECIMAL(10, 2) NOT NULL,
+    stock INT DEFAULT 0,
+    descripcion TEXT,
+    idioma VARCHAR(30),
+    num_paginas INT,
+    id_editorial INT,
+    FOREIGN KEY (id_editorial) REFERENCES EDITORIAL(id_editorial)
+);
+
+-- 5. Entidad CLIENTE
+CREATE TABLE CLIENTE (
+    id_cliente INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    telefono VARCHAR(20),
+    direccion TEXT,
+    fecha_registro DATE DEFAULT (CURRENT_DATE)
+);
+
+-- 6. Entidad EMPLEADO
+CREATE TABLE EMPLEADO (
+    id_empleado INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    puesto VARCHAR(50),
+    sucursal VARCHAR(50),
+    usuario_sistema VARCHAR(50) UNIQUE
+);
+
+-- 7. Entidad VENTA (Encabezado)
+CREATE TABLE VENTA (
+    id_venta INT AUTO_INCREMENT PRIMARY KEY,
+    fecha DATETIME DEFAULT CURRENT_TIMESTAMP,
+    total DECIMAL(10, 2) NOT NULL,
+    estado VARCHAR(20),
+    metodo_pago VARCHAR(30),
+    id_cliente INT,
+    id_empleado INT,
+    FOREIGN KEY (id_cliente) REFERENCES CLIENTE(id_cliente),
+    FOREIGN KEY (id_empleado) REFERENCES EMPLEADO(id_empleado)
+);
+
+-- 8. Entidad DETALLE_VENTA
+CREATE TABLE DETALLE_VENTA (
+    id_detalle INT AUTO_INCREMENT PRIMARY KEY,
+    id_venta INT,
+    isbn VARCHAR(20),
+    cantidad INT NOT NULL,
+    precio_unitario DECIMAL(10, 2) NOT NULL,
+    subtotal DECIMAL(10, 2) NOT NULL,
+    FOREIGN KEY (id_venta) REFERENCES VENTA(id_venta),
+    FOREIGN KEY (isbn) REFERENCES LIBRO(isbn)
+);
+
+-- 9. Entidad PROVEEDOR
+CREATE TABLE PROVEEDOR (
+    id_proveedor INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    rfc_nif VARCHAR(20) UNIQUE,
+    contacto VARCHAR(100),
+    condiciones_pago VARCHAR(100)
+);
+
+-- 10. Entidad ORDEN_COMPRA
+CREATE TABLE ORDEN_COMPRA (
+    id_orden INT AUTO_INCREMENT PRIMARY KEY,
+    id_proveedor INT,
+    fecha DATE DEFAULT (CURRENT_DATE),
+    estado VARCHAR(20),
+    total DECIMAL(10, 2),
+    FOREIGN KEY (id_proveedor) REFERENCES PROVEEDOR(id_proveedor)
+);
+
+-- 11. TABLAS INTERMEDIAS (Relaciones Muchos a Muchos)
+
+-- Relación LIBRO - AUTOR
+CREATE TABLE LIBRO_AUTOR (
+    isbn VARCHAR(20),
+    id_autor INT,
+    PRIMARY KEY (isbn, id_autor),
+    FOREIGN KEY (isbn) REFERENCES LIBRO(isbn),
+    FOREIGN KEY (id_autor) REFERENCES AUTOR(id_autor)
+);
+
+-- Relación LIBRO - CATEGORIA
+CREATE TABLE LIBRO_CATEGORIA (
+    isbn VARCHAR(20),
+    id_categoria INT,
+    PRIMARY KEY (isbn, id_categoria),
+    FOREIGN KEY (isbn) REFERENCES LIBRO(isbn),
+    FOREIGN KEY (id_categoria) REFERENCES CATEGORIA(id_categoria)
+);
+
+-- Relación ORDEN_COMPRA - LIBRO (Detalle de compra)
+CREATE TABLE DETALLE_PEDIDO_COMPRA (
+    id_orden INT,
+    isbn VARCHAR(20),
+    cantidad INT NOT NULL,
+    precio_compra DECIMAL(10, 2),
+    PRIMARY KEY (id_orden, isbn),
+    FOREIGN KEY (id_orden) REFERENCES ORDEN_COMPRA(id_orden),
+    FOREIGN KEY (isbn) REFERENCES LIBRO(isbn)
+);
+
+```
+
+---
+
+### 💡 Notas del DBA:
+
+1. **Integridad:** He utilizado `DECIMAL(10,2)` para los precios para evitar errores de redondeo que suelen dar los tipos `FLOAT`.
+2. **Relaciones:** Las tablas intermedias (`LIBRO_AUTOR`, `LIBRO_CATEGORIA`) permiten que un libro pertenezca a varios géneros o sea escrito por varios autores, tal como se solicitó.
+3. **Automatización:** Se incluyeron valores por defecto como `CURRENT_TIMESTAMP` para las ventas y `AUTO_INCREMENT` para los IDs.
+
+¿Deseas que añada algunos datos de prueba (INSERTs) para que puedas testear las consultas?
