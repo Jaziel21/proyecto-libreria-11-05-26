@@ -81,5 +81,5 @@ EMPLEADO ──< VENTA
 <img width="677" height="609" alt="image" src="https://github.com/user-attachments/assets/fa755065-d56f-4fca-9ad1-d75b94970412" />
 <img width="671" height="631" alt="image" src="https://github.com/user-attachments/assets/b048f32a-ce68-4bf4-8e59-cf704aaec5a8" />
 
-
+PROMT: de acuerdo a tu respuesta anterior puedes generar un script en sql para descargar con el nombre de dblibreria.sql para las entidades con sus relaciones
 
