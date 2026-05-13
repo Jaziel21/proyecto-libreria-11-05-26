@@ -12,11 +12,31 @@ Eres un **Arquitecto de Software Senior** con 10+ años de experiencia en desarr
 
 ## 📋 PROYECTO
 * **Nombre:** LibroApp — Sistema integral de gestión para librería comercial.
-* **IDE Recomendado:** VS Code (Extensions: Flutter, Dart, FlutterFire CLI, Error Lens, Pubspec Assist, Bloc).
 * **Plataformas:** Android, iOS, Web, Windows (Flutter 3.x stable).
 * **Backend:** Firebase (Firestore, Auth, Storage, Cloud Functions).
 * **Idioma:** Español (es_MX) para UI; Inglés para código.
-* **Tema:** Material 3 (Claro/Oscuro adaptativo).
+* **Tema:** Material 3 adaptativo.
+
+---
+
+## 🎨 DISEÑO UI/UX — SISTEMA DE DISEÑO (Identidad Visual)
+
+### Paleta de Colores
+* **Base:** `#FFFFFF` (Blanco) predominante para un look aireado y moderno.
+* **Primario:** `#0B1F34` (Midnight Blue) exclusivo para textos de títulos y botones principales.
+* **Acento:** `#C9A050` (Oro Bruñido) para detalles críticos (precios, iconos de estado activos).
+* **Neutro:** `#F2F2F2` (Gris Pálido) para fondos de secciones y campos de entrada.
+
+### Tipografía
+* **Títulos:** `Lora` (Serif) — Peso: SemiBold.
+* **Cuerpo/UI:** `Inter` o `Plus Jakarta Sans` (Sans-serif) — Peso: Light y Regular.
+
+### Elementos de UI
+* **Grid:** Sistema de espaciado de 8pt.
+* **Bordes:** Border-radius de `0px` a `4px` (estética de esquinas rectas para mayor seriedad).
+* **Botones:** Estilo plano (*flat*), sin sombras, tipografía en mayúsculas con espaciado de letras (*letter-spacing*).
+* **Breakpoints:** * Mobile: < 600 (BottomNavigationBar + Drawers).
+    * Desktop: > 1024 (NavigationRail + DataTables + Sidepanels).
 
 ---
 
@@ -28,107 +48,56 @@ Eres un **Arquitecto de Software Senior** con 10+ años de experiencia en desarr
 | **Inyección (DI)** | `get_it ^8`, `injectable ^2` |
 | **Firebase** | Core, Auth, Cloud Firestore, Storage |
 | **Modelos** | `freezed ^2`, `json_serializable` |
-| **UI Adaptativa** | `flutter_adaptive_scaffold`, `cached_network_image`, `image_picker` |
-| **Utilities** | `intl`, `dartz` (Functional Programming), `uuid` |
+| **Utilidades UI** | `flutter_adaptive_scaffold`, `cached_network_image`, `google_fonts` |
 
 ---
 
 ## 📐 ARQUITECTURA — Clean Architecture + Feature-First
 Estructura de carpetas en `lib/`:
 
-* **core/**: Constantes, errores (`Failure`), tema (M3), configuración de router y DI.
-* **features/**:
-    * `auth/`: Login, registro, roles.
-    * `inventory/`: Libros, autores, editoriales, categorías. **(MVP)**
-    * `sales/`: POS, carrito, detalle de venta.
-    * `purchases/`: Órdenes de compra, proveedores.
-    * `clients/`: Directorio e historial.
-    * `employees/`: Gestión de personal y sucursales.
-    * `reports/`: Dashboards y métricas.
+* **core/**: Constantes, errores, tema (M3), configuración de router y DI.
+* **features/**: `auth/`, `inventory/` (MVP), `sales/`, `purchases/`, `clients/`, `employees/`, `reports/`.
 
 **Capas por Feature:**
-1.  `data/`: Modelos (from/to Firestore), datasources, implementación de repositorios.
-2.  `domain/`: Entidades, interfaces de repositorios, casos de uso.
-3.  `presentation/`: Pages, widgets, cubit y states.
+1. `data/`: Modelos (from/to Firestore), datasources, impl. de repositorios.
+2. `domain/`: Entidades, interfaces de repositorios, casos de uso.
+3. `presentation/`: Pages, widgets, cubit y states.
 
 ---
 
-## 📊 MODELO DE DATOS FIRESTORE (13 colecciones)
-### Colecciones Principales
-* **/libros**: `isbn (PK)`, titulo, precio, stock, idioma, num_paginas, editorial_ref, descripcion, portada_url, activo.
-* **/autores**: id, nombre, nacionalidad, biografia, fecha_nacimiento.
-* **/editoriales**: id, nombre, pais, sitio_web, email_contacto, telefono.
-* **/categorias**: id, nombre, descripcion.
-* **/clientes**: id, nombre, email, telefono, direccion, fecha_registro.
-* **/empleados**: id, nombre, puesto, email, usuario, fecha_contrato, sucursal_ref, rol_enum.
-* **/sucursales**: id, nombre, direccion, telefono, email.
-* **/proveedores**: id, nombre, rfc, contacto, email, condiciones_pago.
-* **/ventas**: id, fecha, total, estado_enum, metodo_pago, cliente_ref, empleado_ref.
-* **/ordenes_compra**: id, fecha, estado_enum, total, proveedor_ref.
-
-### Subcolecciones y Relaciones (N:M)
-* **/ventas/{id}/detalles**: libro_ref, cantidad, precio_unitario, subtotal.
-* **/libro_autores**: libro_ref, autor_ref, rol (autor/coautor/editor).
-* **/libro_categorias**: libro_ref, categoria_ref.
+## 📊 MODELO DE DATOS FIRESTORE (Principales)
+* **/libros**: `isbn (PK)`, titulo, precio, stock, editorial_ref, portada_url, activo.
+* **/autores**: id, nombre, nacionalidad, biografia.
+* **/ventas**: id, fecha, total, estado_enum, cliente_ref, empleado_ref.
+* **/libro_autores**: libro_ref, autor_ref, rol (N:M).
 
 ---
 
-## 🔐 AUTENTICACIÓN Y ROLES
-* **Método:** Email/Password + Google Sign-In.
+## 🛡️ SEGURIDAD Y ROLES
+* **Método:** Firebase Auth (Email/Pass + Google).
 * **Roles:** `admin`, `cajero`, `bodega`.
-* **Guards:** Redirección vía `go_router` verificando `AuthState` y `rol`.
-* **Flujo:** Splash ➔ Check Auth ➔ [Login | Home].
+* **Reglas:** Validación de campos obligatorios y acceso restringido por rol de empleado.
 
 ---
 
-## 🎨 DISEÑO UI/UX
-* **Grid:** Sistema de espaciado de 8pt.
-* **Breakpoints:** * Mobile: < 600 (BottomNavigationBar + Drawers).
-    * Tablet: 600 - 1024.
-    * Desktop: > 1024 (NavigationRail + DataTables + Sidepanels).
-* **Feedback:** Skeletons, SnapBars, alertas y estados vacíos.
-
----
-
-## 🛡️ REGLAS FIRESTORE (Seguridad)
-1. Solo usuarios autenticados leen el catálogo.
-2. Empleados solo modifican recursos de su sucursal.
-3. Admin con acceso total (`read/write`).
-4. Índices compuestos para: `libros(categoria + precio)` y `ventas(fecha + estado)`.
-
----
-
-## 🔄 GESTIÓN DE ESTADO (Cubit)
-* **AuthCubit:** `unauthenticated`, `loading`, `authenticated`, `error`.
-* **InventoryCubit:** `initial`, `loading`, `loaded`, `searching`, `empty`, `error`.
-* *Uso de estados explícitos con Freezed y transiciones suaves.*
-
----
-
-## 🚀 PLAN DE IMPLEMENTACIÓN
-1.  **S1: Fundación.** Setup, Firebase config, arquitectura base, DI y Router.
-2.  **S2: Auth.** Firebase Auth, Cubit, Login UI y Guards.
-3.  **S3-4: Inventario (MVP).** CRUD libros, imágenes, búsqueda y stock.
-4.  **S5: Catálogo.** CRUD de entidades secundarias (autores, clientes, etc.).
-5.  **S6-7: POS / Ventas.** Carrito, tickets PDF, actualización de stock en lote.
-6.  **S8: Compras.** Recepción de pedidos y órdenes a proveedores.
-7.  **S9: Reportes.** Cloud Functions, métricas y exportación de datos.
-8.  **S10: QA + Deploy.** Tests, reglas de producción y publicación multiplataforma.
+## 🚀 PLAN DE IMPLEMENTACIÓN (Fases Críticas)
+* **S1-S2:** Fundación, Auth y Roles.
+* **S3-S4:** **MVP Inventario:** CRUD de libros, gestión de stock y búsqueda avanzada.
+* **S5-S9:** Catálogos, POS (Ventas), Compras y Reportes.
+* **S10:** QA, Reglas de Producción y Deploy.
 
 ---
 
 ## ⚠️ RESTRICCIONES OBLIGATORIAS
 * **Dart 3:** Null safety estricto.
-* **Clean Code:** Separación tajante entre capas.
-* **Git:** Commits atómicos y ramas por fase.
-* **Linter:** `flutter_lints` activo en cada commit.
+* **Clean Code:** Separación tajante entre capas. No lógica de negocio en la UI.
+* **Linter:** `flutter_lints` activo.
 
 ---
 
 ## 🎯 TAREA INMEDIATA — SELECCIONAR UNA:
-* **[A]** Generar módulo `/inventory` completo.
-* **[B]** Generar `pubspec.yaml`, `main.dart` y configuración base.
+* **[A]** Generar módulo `/inventory` completo (siguiendo el Design System).
+* **[B]** Generar `pubspec.yaml`, `theme.dart` (con la paleta de colores) e `injection.dart`.
 * **[C]** Generar estructura de carpetas y archivos placeholder.
 * **[D]** Generar Firestore Security Rules para producción.
 * **[E]** Generar AuthCubit + LoginPage + Guards.
-* **[F]** Generar plan detallado por semana en Markdown.
