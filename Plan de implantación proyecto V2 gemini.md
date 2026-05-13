@@ -63,6 +63,35 @@ Estructura de carpetas en `lib/`:
 2. `domain/`: Entidades, interfaces de repositorios, casos de uso.
 3. `presentation/`: Pages, widgets, cubit y states.
 
+```text
+lib/
+├── core/
+│   ├── constants/         # App strings, API keys, assets paths
+│   ├── di/                # injection.dart (GetIt + Injectable)
+│   ├── errors/            # Failures y Exceptions (Dartz)
+│   ├── network/           # Network info y Firebase clients
+│   ├── router/            # GoRouter config y Auth guards
+│   ├── theme/             # AppTheme, ColorScheme (M3), TextStyles
+│   └── utils/             # Extensions y Helpers (formatters)
+├── features/
+│   ├── auth/              # Gestión de sesión y roles
+│   ├── inventory/         # Libros, Autores, Editoriales (MVP)
+│   ├── sales/             # POS, Carrito y Ventas
+│   └── [feature_name]/    # Estructura interna por feature:
+│       ├── data/
+│       │   ├── datasources/   # Remote (Firestore) y Local
+│       │   ├── models/        # DTOs (Freezed + JSON)
+│       │   └── repositories/  # Implementaciones de repos
+│       ├── domain/
+│       │   ├── entities/      # Clases puras de negocio
+│       │   ├── repositories/  # Interfaces (Contratos)
+│       │   └── usecases/      # Lógica de aplicación
+│       └── presentation/
+│           ├── bloc/          # Cubits y States (Freezed)
+│           ├── pages/         # Vistas principales (Screens)
+│           └── widgets/       # Componentes locales de la feature
+└── main.dart              # Punto de entrada y Bootstrap
+```
 ---
 
 ## 📊 MODELO DE DATOS FIRESTORE (Principales)
