@@ -105,7 +105,7 @@ Estructura de carpetas en `lib/`:
 
 ---
 
-## 🚀 PLAN DE IMPLEMENTACIÓN (10 Semanas)
+## 🚀 PLAN DE IMPLEMENTACIÓN
 1.  **S1: Fundación.** Setup, Firebase config, arquitectura base, DI y Router.
 2.  **S2: Auth.** Firebase Auth, Cubit, Login UI y Guards.
 3.  **S3-4: Inventario (MVP).** CRUD libros, imágenes, búsqueda y stock.
