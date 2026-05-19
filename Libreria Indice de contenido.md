@@ -1,27 +1,27 @@
 ## Introducción
 
-<img width="1024" height="1536" alt="image" src="https://github.com/user-attachments/assets/1f55b8af-c4a8-4d8e-8083-e197941d38ed" />
+<img width="1024" height="1536" alt="image" src="https://github.com/user-attachments/assets/ec274997-c6fb-481a-b451-13b5ab7fd89a" />
 
 ## Objetivo del proyecto 
 
-<img width="1024" height="1536" alt="image" src="https://github.com/user-attachments/assets/ce04d5cc-53e1-40c5-9a84-27f4358b757e" />
+<img width="1024" height="1536" alt="image" src="https://github.com/user-attachments/assets/2104c050-5cf0-499c-b037-fced902fac17" />
 
 ## Marco Teórico
 
-<img width="1024" height="1536" alt="image" src="https://github.com/user-attachments/assets/47d9c97a-b422-41c7-94da-72ec1b62ff7d" />
+<img width="1024" height="1536" alt="image" src="https://github.com/user-attachments/assets/2b7c87fd-831c-4ef1-be52-fe579d8e32dc" />
 
 ## Tecnologías Utilizadas
 
-<img width="1024" height="1536" alt="image" src="https://github.com/user-attachments/assets/94dacb11-298a-48c1-ad71-7ca218810e83" />
+<img width="1024" height="1536" alt="image" src="https://github.com/user-attachments/assets/f2f28b97-f147-40fb-a96f-18fc5d01a494" />
 
 ## Desarrollo del Proyecto
 
-<img width="1024" height="1536" alt="image" src="https://github.com/user-attachments/assets/4b44fe80-9f91-4d42-9bba-ea5484b5e620" />
+<img width="1024" height="1536" alt="image" src="https://github.com/user-attachments/assets/7bb45101-2be9-49ba-bdc9-561d7245e477" />
 
 ## Implementación y Mantenimiento
 
-<img width="1024" height="1536" alt="image" src="https://github.com/user-attachments/assets/0d1c885b-ec2f-4065-894b-299633d62413" />
+<img width="1024" height="1536" alt="image" src="https://github.com/user-attachments/assets/5babce81-f1e2-40b1-b50e-f16473503d12" />
 
 ## Conclusiones
 
-<img width="1024" height="1536" alt="image" src="https://github.com/user-attachments/assets/a9167bff-c0e3-4b3c-b7fe-cc71c8bb126f" />
+<img width="1024" height="1536" alt="image" src="https://github.com/user-attachments/assets/a9656a7f-fcd3-41ba-bf15-3a7e34ecae11" />
